@@ -7,7 +7,7 @@ Transport Allays with bottles!
 A lightweight datapack prototype to transport Allays more easily over longer distances.
 To catch or release, simply right-click with a bottle (doesn't always work first time).
 
-## Notes:
+## 📒 Notes:
 - Tested for Fabric and Vanilla in 22w14a
 - To uninstall run the command `/function aiab:core/uninstall`
 - The datapack was created with [mc-build](https://github.com/mc-build/mc-build).
