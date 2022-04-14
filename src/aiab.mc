@@ -260,7 +260,7 @@ dir core {
 
     # Warns the player if he uses a not supportet minecraft version
     execute store result score .temp0 aiab.data run data get entity @s DataVersion
-    execute unless score .temp0 aiab.data matches 3088 run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use 22w13a to prevent errors.","color":"gold"}]
+    execute unless score .temp0 aiab.data matches 3088..3089 run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use 22w15a to prevent errors.","color":"gold"}]
   }
 
   advancement first_join {
