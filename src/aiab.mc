@@ -306,7 +306,6 @@ dir core {
 
     # Disables the datapack
     datapack disable "file/Allay-in-a-Bottle"
-    datapack disable "file/Allay-in-a-Bottle-v1.0.0"
-    datapack disable "file/Allay-in-a-Bottle-v1.0.0.zip"
+    datapack disable "file/Allay-in-a-Bottle.zip"
   }
 }
