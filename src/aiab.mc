@@ -2,7 +2,7 @@ import ../macros/log.mcm
 
 
 ## Catch the allay in a bottle
-# Make shure that each player that can catch an allay is linked to a villager
+# Make sure that each player that can catch an allay is linked to a villager
 clock 1t {
   name loop
 
@@ -258,7 +258,7 @@ dir core {
     scoreboard players operation @s aiab.uuid = %id aiab.uuid
     scoreboard players add %id aiab.uuid 1
 
-    # Warns the player if he uses a not supportet minecraft version
+    # Warns the player if he uses a not supported minecraft version
     execute store result score .temp0 aiab.data run data get entity @s DataVersion
     execute unless score .temp0 aiab.data matches 3088..3089 run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use 22w15a to prevent errors.","color":"gold"}]
   }
