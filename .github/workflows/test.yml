@@ -17,8 +17,26 @@ jobs:
       - name: Run mc-build
         run: mcb -build
 
-      - name: Check commands
+      - name: Check minecraft commands
         uses: mcbeet/check-commands@v1
         with:
           source: /home/runner/work/Allay-in-a-Bottle/Allay-in-a-Bottle
-          minecraft: "1.19""
+          minecraft: "1.19"
+
+  json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+
+      - name: Install mc-build
+        run: npm i -g mc-build
+      - name: Run mc-build
+        run: mcb -build
+
+      - name: Install jsonlint-cli
+        run: npm install -g jsonlint-cli
+      - name: Lint json files
+        run: find . -name "*.json" | xargs jsonlint-cli
