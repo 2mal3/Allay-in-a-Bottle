@@ -17,7 +17,7 @@ clock 1t {
         # Gives the villager the same uuid as the player
         scoreboard players operation .temp0 aiab.data = @s aiab.uuid
         execute as @e[type=minecraft:villager,sort=nearest,tag=aiab.init] run {
-          tag @s remove aiab.init 
+          tag @s remove aiab.init
 
           tp @s ~ ~ ~
           scoreboard players operation @s aiab.uuid = .temp0 aiab.data
@@ -98,7 +98,7 @@ advancement catch {
 
 function catch {
   advancement revoke @s only aiab:catch
-  log AllayInABottle debug entity <Catched Allay> 
+  log AllayInABottle debug entity <Catched Allay>
 
   # Find the allay the player is looking at
   tag @s add aiab.this0
@@ -180,7 +180,7 @@ function release {
     summon minecraft:allay ~ ~ ~ {Tags:["aiab.init"]}
     particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
   }
-  
+
   # Transfer stored data to allay
   data modify storage aiab:data data set from entity @s SelectedItem.tag.aiab.data
   execute as @e[type=minecraft:allay,distance=..2,sort=nearest,tag=aiab.init] run {
