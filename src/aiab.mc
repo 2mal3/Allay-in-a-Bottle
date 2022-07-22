@@ -299,7 +299,6 @@ dir core {
     # Deletes the scoreboards
     scoreboard objectives remove aiab.data
     scoreboard objectives remove aiab.uuid
-    scoreboard objectives remove 2mal3.debugMode
 
     # Sends an uninstallation message to all players
     tellraw @a {"text":"Allay in a Bottle v1.0.0 by 2mal3 was successfully uninstalled.","color": "green"}
