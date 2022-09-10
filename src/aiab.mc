@@ -232,8 +232,6 @@ dir core {
       scoreboard objectives add 2mal3.debugMode dummy
       # Set the version in format: xx.xx.xx
       scoreboard players set $version aiab.data 010001
-      # Set variables
-      scoreboard players set %id aiab.uuid 0
 
       # Storages
       #declare storage aiab:data
@@ -254,10 +252,6 @@ dir core {
   }
 
   function first_join {
-    # Gives each player a unique id
-    scoreboard players operation @s aiab.uuid = %id aiab.uuid
-    scoreboard players add %id aiab.uuid 1
-
     # Warns the player if he uses a not supported minecraft version
     execute store result score .temp0 aiab.data run data get entity @s DataVersion
     execute unless score .temp0 aiab.data matches 3105.. run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use 1.19 to prevent errors.","color":"gold"}]
