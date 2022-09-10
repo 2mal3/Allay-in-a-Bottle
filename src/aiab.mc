@@ -134,13 +134,46 @@ function found {
   playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
 
   # Gives the player the allay in a bottle
-  item replace entity @p weapon.mainhand with minecraft:honey_bottle{display:{Name:'{"text":"Allay in a Bottle","color":"yellow","italic":false}'},CustomModelData:3330301} 1
-  item modify entity @p weapon.mainhand aiab:set
-  item modify entity @p weapon.mainhand aiab:store
+  execute as @p at @s run {
+    # Special things if the player is holding more than one bottle
+    execute unless predicate aiab:holding_one_glass_bottle run {
+      log AllayInABottle debug entity <Holding more than one bottle>
+      item modify entity @s weapon.mainhand aiab:remove_count
+      # 2bca99d0-ca08-4506-bdef-d0370cf4c261
+      summon minecraft:item ~ ~ ~ {UUID:[I;734697936,-905427706,-1108357065,217367137],Item:{id:"minecraft:glass_bottle",Count:1b}}
+      data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
+    }
+
+    item replace entity @p weapon.mainhand with minecraft:honey_bottle{display:{Name:'{"text":"Allay in a Bottle","color":"yellow","italic":false}'},CustomModelData:3330301} 1
+    item modify entity @p weapon.mainhand aiab:set
+    item modify entity @p weapon.mainhand aiab:store
+  }
 
   # Removes the allay
   tp @s ~ -1000 ~
   kill @s
+}
+
+modifier remove_count {
+  "function": "minecraft:set_count",
+  "count": -1,
+  "add": true
+}
+
+
+predicate holding_one_glass_bottle {
+  "condition": "minecraft:entity_properties",
+  "entity": "this",
+  "predicate": {
+    "equipment": {
+      "mainhand": {
+        "items": [
+          "minecraft:glass_bottle"
+        ],
+        "count": 1
+      }
+    }
+  }
 }
 
 modifier set {
