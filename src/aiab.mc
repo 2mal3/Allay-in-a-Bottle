@@ -53,7 +53,8 @@ predicate looking_at_allay {
   "condition": "minecraft:entity_properties",
   "entity": "this",
   "predicate": {
-    "player": {
+    "type_specific": {
+      "type": "player",
       "looking_at": {
         "type": "minecraft:allay"
       }
