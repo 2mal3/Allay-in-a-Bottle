@@ -244,7 +244,7 @@ dir core {
       team modify aiab.noCollision collisionRule never
 
       schedule 4s replace {
-        tellraw @a {"text":"Allay an a Bottle v1.0.1 by 2mal3 was installed!","color":"green"}
+        tellraw @a {"text":"Allay in a Bottle v1.0.1 by 2mal3 was installed!","color":"green"}
       }
     }
     execute if score %installed aiab.data matches 1 unless score $version aiab.data matches 010001 run {
