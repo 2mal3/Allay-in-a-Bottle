@@ -1,11 +1,11 @@
-
-## Update v1.0.1
+## Update v1.0.2
 
 ### Changed:
- - update to 1.19
- - new release file format
- - license to LGPL-3.0
+
+- also warns if the minecraft version is too high
 
 ### Fixed:
- - debug scoreboard got removed at uninstall
- - typos
+
+- bottles in a slot were deleted during capture (tanks to [@RedStoanPhD](https://www.planetminecraft.com/member/redstoanphd/))
+- typo
+- incompatibility with 1.19
