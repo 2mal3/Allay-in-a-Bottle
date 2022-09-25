@@ -221,14 +221,14 @@ function release {
   }
 
   # Transfer stored data to allay
-  data modify storage aiab:data data set from entity @s SelectedItem.tag.aiab.data
+  data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
   execute as @e[type=minecraft:allay,distance=..2,sort=nearest,tag=aiab.init] run {
     tag @s remove aiab.init
 
-    data modify entity @s Health set from storage aiab:data data.Health
-    data modify entity @s HandItems set from storage aiab:data data.HandItems
-    data modify entity @s Brain set from storage aiab:data data.Brain
-    data modify entity @s UUID set from storage aiab:data data.UUID
+    data modify entity @s Health set from storage aiab:data root.Health
+    data modify entity @s HandItems set from storage aiab:data root.HandItems
+    data modify entity @s Brain set from storage aiab:data root.Brain
+    data modify entity @s UUID set from storage aiab:data root.UUID
   }
 
   item replace entity @s weapon.mainhand with minecraft:glass_bottle
@@ -277,7 +277,7 @@ dir core {
 
       # Storages
       #declare storage aiab:data
-      data merge storage aiab:data {data:{}}
+      data merge storage aiab:data {root:{}}
 
       # Teams
       team add aiab.noCollision
