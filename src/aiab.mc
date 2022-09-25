@@ -199,6 +199,11 @@ modifier store {
       "source": "Brain",
       "target": "aiab.data.Brain",
       "op": "replace"
+    },
+    {
+      "source": "UUID",
+      "target": "aiab.data.UUID",
+      "op": "replace"
     }
   ]
 }
@@ -223,6 +228,7 @@ function release {
     data modify entity @s Health set from storage aiab:data data.Health
     data modify entity @s HandItems set from storage aiab:data data.HandItems
     data modify entity @s Brain set from storage aiab:data data.Brain
+    data modify entity @s UUID set from storage aiab:data data.UUID
   }
 
   item replace entity @s weapon.mainhand with minecraft:glass_bottle
