@@ -144,10 +144,10 @@ function found {
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
 
-    item replace entity @p weapon.mainhand with minecraft:honey_bottle{display:{Name:'{"text":"Allay in a Bottle","color":"yellow","italic":false}'},CustomModelData:3330301} 1
-    item modify entity @p weapon.mainhand aiab:set
-    item modify entity @p weapon.mainhand aiab:store
+    item replace entity @s weapon.mainhand with minecraft:honey_bottle{display:{Name:'{"text":"Allay in a Bottle","color":"yellow","italic":false}'},CustomModelData:3330301} 1
+    item modify entity @s weapon.mainhand aiab:set
   }
+  item modify entity @p weapon.mainhand aiab:store
 
   # Removes the allay
   tp @s ~ -1000 ~
