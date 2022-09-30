@@ -1,11 +1,6 @@
-## Update v1.0.2
-
-### Changed:
-
-- also warns if the minecraft version is too high
+## Update v1.0.3
 
 ### Fixed:
 
-- bottles in a slot were deleted during capture (tanks to [@RedStoanPhD](https://www.planetminecraft.com/member/redstoanphd/))
-- typo
-- incompatibility with 1.19
+- allay bottles could be stacked (thanks to [@RedStoanPhD](https://www.planetminecraft.com/member/redstoanphd/))
+- the duplication cooling of allays was reset during catching (thanks to [@RedStoanPhD](https://www.planetminecraft.com/member/redstoanphd/))

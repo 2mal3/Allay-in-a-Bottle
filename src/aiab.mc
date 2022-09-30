@@ -277,7 +277,7 @@ dir core {
       scoreboard objectives add aiab.uuid dummy
       scoreboard objectives add 2mal3.debugMode dummy
       # Set the version in format: xx.xx.xx
-      scoreboard players set $version aiab.data 010002
+      scoreboard players set $version aiab.data 010003
       # Set variables
       scoreboard players set %id aiab.uuid 0
 
@@ -290,19 +290,31 @@ dir core {
       team modify aiab.noCollision collisionRule never
 
       schedule 4s replace {
-        tellraw @a {"text":"Allay in a Bottle v1.0.2 by 2mal3 was installed!","color":"green"}
+        tellraw @a {"text":"Allay in a Bottle v1.0.3 by 2mal3 was installed!","color":"green"}
       }
     }
-    execute if score %installed aiab.data matches 1 unless score $version aiab.data matches 010002 run {
+    execute if score %installed aiab.data matches 1 unless score $version aiab.data matches 010003 run {
       execute if score $version aiab.data matches 010000 run {
         log AllayInABottle info server <Updated datapack from v1.0.0 to v1.0.1>
         scoreboard players set $version aiab.data 010001
       }
 
+      # v1.0.2
       execute if score $version aiab.data matches 010001 run {
         log AllayInABottle info server <Updated datapack from v1.0.1 to v1.0.2>
         scoreboard players set $version aiab.data 010002
       }
+
+      # v1.0.3
+      execute if score $version aiab.data matches 010002 run {
+        log AllayInABottle info server <Updated datapack from v1.0.2 to v1.0.3>
+        scoreboard players set $version aiab.data 010003
+
+        # Update storage root name
+        data remove storage aiab:data data
+        data merge storage aiab:data {root:{}}
+      }
+
     }
   }
 
@@ -329,7 +341,7 @@ dir core {
 
   advancement aiab {
     "display": {
-      "title": "Allay in a Bottle v1.0.2",
+      "title": "Allay in a Bottle v1.0.3",
       "description": "Transport Allays with bottles!",
       "icon": {
         "item": "minecraft:honey_bottle",
@@ -354,7 +366,7 @@ dir core {
     scoreboard objectives remove aiab.uuid
 
     # Sends an uninstallation message to all players
-    tellraw @a {"text":"Allay in a Bottle v1.0.2 by 2mal3 was successfully uninstalled.","color": "green"}
+    tellraw @a {"text":"Allay in a Bottle v1.0.3 by 2mal3 was successfully uninstalled.","color": "green"}
 
     # Disables the datapack
     datapack disable "file/Allay-in-a-Bottle"
