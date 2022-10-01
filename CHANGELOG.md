@@ -1,5 +1,3 @@
-## Update v1.0.3
-
 ### Fixed:
 
 - allay bottles could be stacked (thanks to [@RedStoanPhD](https://www.planetminecraft.com/member/redstoanphd/))
