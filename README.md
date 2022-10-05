@@ -20,4 +20,5 @@ To catch or release, simply right-click with a bottle (doesn't always work first
 - tested for Fabric and Vanilla in 1.19
 - bug reports and suggestions are best done on [GitHub](https://github.com/2mal3/Allay-in-a-Bottle/issues)
 - to uninstall run the command `/function aiab:core/uninstall`
+- for compatibility with the [Bottle o Light Datapack](https://www.planetminecraft.com/data-pack/bottle-o-light/), download the appropriate version [here]()
 - the datapack was created with [mc-build](https://github.com/mc-build/mc-build)
