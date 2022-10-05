@@ -8,7 +8,7 @@ clock 1t {
 
   execute as @a at @s run {
     # Ensures that there is always a villager in the near of players that can catch an allay
-    execute if entity @s[gamemode=!spectator,gamemode=!adventure,predicate=aiab:holding_glass_bottle] if predicate aiab:looking_at_allay at @s run {
+    execute if entity @s[gamemode=!spectator,gamemode=!adventure,predicate=aiab:holding_amethyst_bottle] if predicate aiab:looking_at_allay at @s run {
       # Summons a click detection villager if the player first can catch a allay
       execute unless entity @s[tag=aiab.canCatchAllay] run {
         tag @s add aiab.canCatchAllay
@@ -33,7 +33,7 @@ clock 1t {
     execute if entity @s[tag=aiab.canCatchAllay] run {
       scoreboard players set .temp0 aiab.data 0
 
-      execute unless predicate aiab:holding_glass_bottle run scoreboard players set .temp0 aiab.data 1
+      execute unless predicate aiab:holding_amethyst_bottle run scoreboard players set .temp0 aiab.data 1
       execute unless predicate aiab:looking_at_allay run scoreboard players set .temp0 aiab.data 1
 
       execute if score .temp0 aiab.data matches 1 run {
@@ -62,15 +62,16 @@ predicate looking_at_allay {
   }
 }
 
-predicate holding_glass_bottle {
+predicate holding_amethyst_bottle {
   "condition": "minecraft:entity_properties",
   "entity": "this",
   "predicate": {
     "equipment": {
       "mainhand": {
         "items": [
-          "minecraft:glass_bottle"
-        ]
+          "minecraft:panda_spawn_egg"
+        ],
+        "nbt": "{CustomModelData:92643180}"
       }
     }
   }
@@ -136,11 +137,11 @@ function found {
   # Gives the player the allay in a bottle
   execute as @p at @s run {
     # Special things if the player is holding more than one bottle
-    execute unless predicate aiab:holding_one_glass_bottle run {
+    execute unless predicate aiab:holding_one_amethyst_bottle run {
       log AllayInABottle debug entity <Holding more than one bottle>
       item modify entity @s weapon.mainhand aiab:remove_count
       # 2bca99d0-ca08-4506-bdef-d0370cf4c261
-      summon minecraft:item ~ ~ ~ {UUID:[I;734697936,-905427706,-1108357065,217367137],Item:{id:"minecraft:glass_bottle",Count:1b}}
+      summon minecraft:item ~ ~ ~ {UUID:[I;734697936,-905427706,-1108357065,217367137],Item:{id:"minecraft:panda_spawn_egg",Count:1b, tag:{display:{Name:'{"text":"Amethyst Bottle","italic":false}'},CustomModelData:92643180,EntityTag:{id:"minecraft:armor_stand",Small:1b,Invisible:1b,Tags:["amethystBottleEntity"]}}}}
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
 
@@ -161,16 +162,17 @@ modifier remove_count {
 }
 
 
-predicate holding_one_glass_bottle {
+predicate holding_one_amethyst_bottle {
   "condition": "minecraft:entity_properties",
   "entity": "this",
   "predicate": {
     "equipment": {
       "mainhand": {
         "items": [
-          "minecraft:glass_bottle"
+          "minecraft:panda_spawn_egg"
         ],
-        "count": 1
+        "count": 1,
+        "nbt": "{CustomModelData:92643180}"
       }
     }
   }
@@ -237,7 +239,7 @@ function release {
     data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
   }
 
-  item replace entity @s weapon.mainhand with minecraft:glass_bottle
+  item replace entity @s weapon.mainhand with minecraft:panda_spawn_egg{display:{Name:'{"text":"Amethyst Bottle","italic":false}'},CustomModelData:92643180,EntityTag:{id:"minecraft:armor_stand",Small:1b,Invisible:1b,Tags:["amethystBottleEntity"]}}
 }
 
 advancement release {
