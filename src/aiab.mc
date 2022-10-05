@@ -13,7 +13,7 @@ clock 1t {
       execute unless entity @s[tag=aiab.canCatchAllay] run {
         tag @s add aiab.canCatchAllay
 
-        summon minecraft:villager ~ 1000 ~ {NoGravity:1b,Silent:1b,Team:"aiab.noCollision",Invulnerable:1b,NoAI:1b,Tags:["aiab.villager","aiab.init"],ActiveEffects:[{Id:14b,Amplifier:1b,Duration:99999,ShowParticles:0b}]}
+        summon minecraft:villager ~ 1000 ~ {NoGravity: 1b, Silent: 1b, Team: "aiab.noCollision", Invulnerable: 1b, NoAI: 1b, Tags: ["aiab.villager", "aiab.init"], ActiveEffects: [{Id: 14b, Amplifier: 1b, Duration: 99999, ShowParticles: 0b}]}
         # Gives the villager the same uuid as the player
         scoreboard players operation .temp0 aiab.data = @s aiab.uuid
         execute as @e[type=minecraft:villager,sort=nearest,tag=aiab.init] run {
@@ -140,11 +140,11 @@ function found {
       log AllayInABottle debug entity <Holding more than one bottle>
       item modify entity @s weapon.mainhand aiab:remove_count
       # 2bca99d0-ca08-4506-bdef-d0370cf4c261
-      summon minecraft:item ~ ~ ~ {UUID:[I;734697936,-905427706,-1108357065,217367137],Item:{id:"minecraft:glass_bottle",Count:1b}}
+      summon minecraft:item ~ ~ ~ {UUID: [I; 734697936, -905427706, -1108357065, 217367137], Item: {id: "minecraft:glass_bottle", Count: 1b}}
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
 
-    item replace entity @s weapon.mainhand with minecraft:honey_bottle{display:{Name:'{"text":"Allay in a Bottle","color":"yellow","italic":false}'},CustomModelData:3330301} 1
+    item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
     item modify entity @s weapon.mainhand aiab:set
   }
   item modify entity @p weapon.mainhand aiab:store
@@ -221,7 +221,7 @@ function release {
 
   playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
   execute anchored eyes positioned ^ ^-0.5 ^1.5 run {
-    summon minecraft:allay ~ ~ ~ {Tags:["aiab.init"]}
+    summon minecraft:allay ~ ~ ~ {Tags: ["aiab.init"]}
     particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
   }
 
@@ -283,7 +283,7 @@ dir core {
 
       # Storages
       #declare storage aiab:data
-      data merge storage aiab:data {root:{}}
+      data merge storage aiab:data {root: {}}
 
       # Teams
       team add aiab.noCollision
@@ -312,7 +312,7 @@ dir core {
 
         # Update storage root name
         data remove storage aiab:data data
-        data merge storage aiab:data {root:{}}
+        data merge storage aiab:data {root: {}}
       }
 
     }
