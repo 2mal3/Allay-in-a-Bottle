@@ -371,7 +371,7 @@ dir core {
     tellraw @a {"text":"Allay in a Bottle v1.0.3 by 2mal3 was successfully uninstalled.","color": "green"}
 
     # Disables the datapack
-    datapack disable "file/Allay-in-a-Bottle"
-    datapack disable "file/Allay-in-a-Bottle.zip"
+    datapack disable "file/Allay-in-a-Amethyst-Bottle"
+    datapack disable "file/Allay-in-a-Amethyst-Bottle.zip"
   }
 }
