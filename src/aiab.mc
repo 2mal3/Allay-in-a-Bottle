@@ -229,7 +229,7 @@ function release {
     name placemob
 
     execute if entity @p[distance=..4.5] unless block ^ ^ ^0.25 air if block ~ ~ ~ air run {
-      summon minecraft:allay ^ ^-0.2 ^ {Tags: ["aiab.init"]}
+      summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
       particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
     }
     execute if block ^ ^ ^0.25 air positioned ^ ^ ^0.25 run function aiab:placemob
