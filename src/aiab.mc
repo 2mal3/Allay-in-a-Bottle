@@ -281,7 +281,6 @@ advancement release {
 dir core {
   function load {
 
-    say aiab Loaded
     log AllayInABottle info server <Datapack reloaded>
 
     scoreboard objectives add aiab.data dummy
