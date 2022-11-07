@@ -209,6 +209,11 @@ modifier store {
       "source": "DuplicationCooldown",
       "target": "aiab.data.DuplicationCooldown",
       "op": "replace"
+    },
+    {
+      "source": "NoAI",
+      "target": "aiab.data.NoAI",
+      "op": "replace"
     }
   ]
 }
@@ -219,26 +224,38 @@ function release {
   log AllayInABottle debug entity <Released Allay>
   advancement revoke @s only aiab:release
 
-  playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
-  execute anchored eyes positioned ^ ^-0.5 ^1.5 run {
-    summon minecraft:allay ~ ~ ~ {Tags: ["aiab.init"]}
-    particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
+  #Iterative function to find block to place on
+  execute as @p anchored eyes run block {
+    name placemob
+
+    execute if entity @p[distance=..4.5] unless block ^ ^ ^0.25 air if block ~ ~ ~ air run {
+      summon minecraft:allay ^ ^-0.2 ^ {Tags: ["aiab.init"]}
+      particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
+    }
+    execute if block ^ ^ ^0.25 air positioned ^ ^ ^0.25 run function aiab:placemob
   }
 
-  # Transfer stored data to allay
-  data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
-  execute as @e[type=minecraft:allay,distance=..2,sort=nearest,tag=aiab.init] run {
-    tag @s remove aiab.init
+  # Transfer stored data to allay if allay was placed
+  execute if entity @e[type=allay,tag=aiab.init,distance=..5] run {
+      
+      data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
+      execute as @e[type=minecraft:allay,tag=aiab.init] run {
+        
+        tag @s remove aiab.init
+        data modify entity @s Health set from storage aiab:data root.Health
+        data modify entity @s HandItems set from storage aiab:data root.HandItems
+        data modify entity @s Brain set from storage aiab:data root.Brain
+        data modify entity @s UUID set from storage aiab:data root.UUID
+        data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
+        data modify entity @s NoAI set from storage aiab:data root.NoAI
 
-    data modify entity @s Health set from storage aiab:data root.Health
-    data modify entity @s HandItems set from storage aiab:data root.HandItems
-    data modify entity @s Brain set from storage aiab:data root.Brain
-    data modify entity @s UUID set from storage aiab:data root.UUID
-    data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
+    }
+    playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
+    item replace entity @s weapon.mainhand with minecraft:glass_bottle
   }
-
-  item replace entity @s weapon.mainhand with minecraft:glass_bottle
 }
+
+
 
 advancement release {
   "criteria": {
@@ -263,6 +280,8 @@ advancement release {
 ## Core function
 dir core {
   function load {
+
+    say aiab Loaded
     log AllayInABottle info server <Datapack reloaded>
 
     scoreboard objectives add aiab.data dummy
