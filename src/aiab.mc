@@ -237,10 +237,10 @@ function release {
 
   # Transfer stored data to allay if allay was placed
   execute if entity @e[type=allay,tag=aiab.init,distance=..5] run {
-      
+
       data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
       execute as @e[type=minecraft:allay,tag=aiab.init] run {
-        
+
         tag @s remove aiab.init
         data modify entity @s Health set from storage aiab:data root.Health
         data modify entity @s HandItems set from storage aiab:data root.HandItems
@@ -340,10 +340,6 @@ dir core {
     # Gives each player a unique id
     scoreboard players operation @s aiab.uuid = %id aiab.uuid
     scoreboard players add %id aiab.uuid 1
-
-    # Warns the player if he uses a not supported minecraft version
-    execute store result score .temp0 aiab.data run data get entity @s DataVersion
-    execute unless score .temp0 aiab.data matches 3105..3120 run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use 1.19 to prevent errors.","color":"gold"}]
   }
 
   advancement first_join {
