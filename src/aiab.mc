@@ -224,20 +224,17 @@ function release {
   log AllayInABottle debug entity <Released Allay>
   advancement revoke @s only aiab:release
 
-  #Iterative function to find block to place on
-  execute as @p anchored eyes run block {
-    name placemob
-
-    execute if entity @p[distance=..4.5] unless block ^ ^ ^0.25 air if block ~ ~ ~ air run {
+  # Iterative function to find block to place on
+  execute as @p anchored eyes run {
+    execute if entity @p[distance=..4.5] unless block ^ ^ ^0.25 minecraft:air if block ~ ~ ~ minecraft:air run {
       summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
       particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
     }
-    execute if block ^ ^ ^0.25 air positioned ^ ^ ^0.25 run function aiab:placemob
+    execute if block ^ ^ ^0.25 minecraft:air positioned ^ ^ ^0.25 run function $block
   }
 
   # Transfer stored data to allay if allay was placed
   execute if entity @e[type=allay,tag=aiab.init,distance=..5] run {
-
       data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
       execute as @e[type=minecraft:allay,tag=aiab.init] run {
 
@@ -254,7 +251,6 @@ function release {
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
   }
 }
-
 
 
 advancement release {
