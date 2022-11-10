@@ -225,7 +225,7 @@ function release {
 
   # Iterative function to find block to place on
   scoreboard players set .success aiab.data 0
-  scoreboard players set .length aiab.data 450
+  scoreboard players set .length aiab.data 45
 
   execute as @p anchored eyes run block {
     name place_mob
