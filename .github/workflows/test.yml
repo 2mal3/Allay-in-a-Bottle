@@ -4,6 +4,7 @@ on:
   push:
       paths:
         - "**.mc"
+  pull_request:
 
 jobs:
   build:
