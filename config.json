@@ -7,6 +7,10 @@
     "header": "# Datapack by 2mal3 (https://github.com/2mal3)\n# Built using mc-build (https://github.com/mc-build/mc-build) ",
     "internalScoreboard": "aiab.data",
     "generatedDirectory": "__generated__",
-    "rootNamespace": null
+    "rootNamespace": null,
+    "version": {
+      "str": "v1.0.3",
+      "int": 10003
+    }
   }
 }
