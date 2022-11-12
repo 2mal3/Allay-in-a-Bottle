@@ -282,7 +282,7 @@ function release {
             data modify entity @s Rotation set from storage aiab:data root.Rotation
             tag @s remove aiab.cartinit
           }
-        } else {  
+        } else {
            execute positioned ^ ^ ^0.1 run function aiab:place_mob
          }
       }
@@ -313,6 +313,7 @@ function release {
 blocks air {
   minecraft:air
   minecraft:cave_air
+  \#minecraft:rails
 }
 
 
