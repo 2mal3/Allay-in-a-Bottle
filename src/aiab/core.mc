@@ -56,6 +56,11 @@ function load {
       data merge storage aiab:data {root: {}}
     }
 
+    # v1.1.0
+    execute if score $version aiab.data matches 010003 run {
+      log AllayInABottle info server <Updated datapack from v1.0.3 to v1.1.0>
+      scoreboard players set $version aiab.data 10100
+    }
   }
 }
 
