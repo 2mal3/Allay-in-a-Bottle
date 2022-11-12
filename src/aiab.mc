@@ -135,7 +135,7 @@ function catch {
 
   # Find the allay the player is looking at
   tag @s add aiab.this0
-  execute as @e[type=minecraft:allay,distance=..5] run {
+  execute as @e[type=minecraft:allay,distance=..5,limit=1,sort=nearest] run {
     scoreboard players set .temp0 aiab.data 0
 
     tag @s add aiab.this1
