@@ -14,7 +14,7 @@ function release {
     execute if score .length aiab.data matches 1.. run {
       scoreboard players remove .length aiab.data 1
 
-      execute(unless block ^ ^ ^0.1 #aiab:air) {
+      execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
 
         summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
