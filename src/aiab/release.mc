@@ -23,7 +23,7 @@ function release {
       } else execute(as @e[type=minecart,dx=0] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[type=minecart,dx=0] positioned ~0.99 ~0.99 ~0.99) {
         scoreboard players set .success aiab.data 1
         data modify storage aiab:data root set from entity @s
-        execute at @e[type=minecart,dx=0] run summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"],Passengers:[{id:"minecraft:allay",Tags: ["aiab.init"]}]}
+        execute at @e[type=minecart,dx=0] run summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"], Passengers: [{id: "minecraft:allay", Tags: ["aiab.init"]}]}
         kill @s
         execute as @e[type=minecart,tag=aiab.cartinit] run {
           data modify entity @s Motion set from storage aiab:data root.Motion
@@ -31,7 +31,7 @@ function release {
           tag @s remove aiab.cartinit
         }
       } else {
-          execute positioned ^ ^ ^0.1 run function aiab:release/place_mob
+        execute positioned ^ ^ ^0.1 run function aiab:release/place_mob
       }
     }
   }

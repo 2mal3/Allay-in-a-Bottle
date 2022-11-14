@@ -61,6 +61,12 @@ function load {
       log AllayInABottle info server <Updated datapack from v1.0.3 to v1.1.0>
       scoreboard players set $version aiab.data 10100
     }
+
+    # v1.1.1
+    execute if score $version aiab.data matches 10100 run {
+      log AllayInABottle info server <Updated datapack from v1.1.0 to v1.1.1>
+      scoreboard players set $version aiab.data 10101
+    }
   }
 }
 
