@@ -142,8 +142,14 @@ function found {
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
 
-    item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
-    item modify entity @s weapon.mainhand aiab:catch/set
+    execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
+      item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
+      item modify entity @s weapon.mainhand aiab:catch/set
+    } else {
+      item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"red","italic":false}'}, CustomModelData: 3330301} 1
+      item modify entity @s weapon.mainhand aiab:catch/set
+    }
+    
   }
   item modify entity @p weapon.mainhand aiab:catch/store
 
