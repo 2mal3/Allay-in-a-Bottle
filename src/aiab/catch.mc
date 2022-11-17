@@ -141,22 +141,17 @@ function found {
       summon minecraft:item ~ ~ ~ {UUID: [I; 734697936, -905427706, -1108357065, 217367137], Item: {id: "minecraft:glass_bottle", Count: 1b}}
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
-
-    execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
-      item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
-      item modify entity @s weapon.mainhand aiab:catch/set
-    } else {
-      item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"red","italic":false}'}, CustomModelData: 3330301} 1
-      item modify entity @s weapon.mainhand aiab:catch/set
-    }
-    
   }
   
   execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
-    item modify entity @p weapon.mainhand aiab:catch/storeallay
-  } else {
-    item modify entity @p weapon.mainhand aiab:catch/storevex
-  }
+      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
+      item modify entity @p weapon.mainhand aiab:catch/set
+      item modify entity @p weapon.mainhand aiab:catch/storeallay
+    } else {
+      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"red","italic":false}'}, CustomModelData: 3330301} 1
+      item modify entity @p weapon.mainhand aiab:catch/set
+      item modify entity @p weapon.mainhand aiab:catch/storevex
+    }
 
   # Removes the allay
   tp @s ~ -1000 ~
