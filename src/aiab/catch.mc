@@ -151,7 +151,14 @@ function found {
     }
     
   }
-  item modify entity @p weapon.mainhand aiab:catch/store
+  
+  execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
+    say finally storedallay
+    item modify entity @p weapon.mainhand aiab:catch/storeallay
+  } else {
+    say finallystoredvex
+    item modify entity @p weapon.mainhand aiab:catch/storevex
+  }
 
   # Removes the allay
   tp @s ~ -1000 ~
@@ -190,7 +197,7 @@ modifier set {
   "tag": "{aiab:{aiabmob:1b}}"
 }
 
-modifier store {
+modifier storeallay {
   "function": "minecraft:copy_nbt",
   "source": "this",
   "ops": [
@@ -217,6 +224,33 @@ modifier store {
     {
       "source": "DuplicationCooldown",
       "target": "aiab.data.DuplicationCooldown",
+      "op": "replace"
+    },
+    {
+      "source": "NoAI",
+      "target": "aiab.data.NoAI",
+      "op": "replace"
+    }
+  ]
+}
+
+modifier storevex {
+  "function": "minecraft:copy_nbt",
+  "source": "this",
+  "ops": [
+    {
+      "source": "Health",
+      "target": "aiab.data.Health",
+      "op": "replace"
+    },
+    {
+      "source": "HandItems",
+      "target": "aiab.data.HandItems",
+      "op": "replace"
+    },
+    {
+      "source": "UUID",
+      "target": "aiab.data.UUID",
       "op": "replace"
     },
     {
