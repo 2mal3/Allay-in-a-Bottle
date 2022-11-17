@@ -60,7 +60,7 @@ function release {
     log AllayInABottle debug entity <Released Allay>
 
     data modify storage aiab:data root set from entity @s SelectedItem.tag.aiab.data
-    execute as @e[type=minecraft:allay,tag=aiab.init] run {
+    execute as @e[type=#aiab:catch/aiabmobs,tag=aiab.init] run {
       tag @s remove aiab.init
 
       data modify entity @s NoAI set from storage aiab:data root.NoAI
@@ -72,6 +72,8 @@ function release {
     }
     playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
+
+    data remove storage aiab:data root
   }
 }
 
