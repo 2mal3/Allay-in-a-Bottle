@@ -187,7 +187,7 @@ predicate holding_one_glass_bottle {
 
 modifier set {
   "function": "minecraft:set_nbt",
-  "tag": "{aiab:{allay:1b}}"
+  "tag": "{aiab:{aiabmob:1b}}"
 }
 
 modifier store {
