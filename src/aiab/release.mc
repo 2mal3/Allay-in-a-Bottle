@@ -63,12 +63,12 @@ function release {
     execute as @e[type=minecraft:allay,tag=aiab.init] run {
       tag @s remove aiab.init
 
+      data modify entity @s NoAI set from storage aiab:data root.NoAI
       data modify entity @s Health set from storage aiab:data root.Health
       data modify entity @s HandItems set from storage aiab:data root.HandItems
-      data modify entity @s Brain set from storage aiab:data root.Brain
       data modify entity @s UUID set from storage aiab:data root.UUID
       data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
-      data modify entity @s NoAI set from storage aiab:data root.NoAI
+      data modify entity @s Brain set from storage aiab:data root.Brain
     }
     playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
