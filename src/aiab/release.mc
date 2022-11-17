@@ -44,6 +44,7 @@ function release {
         }
         kill @s
         execute as @e[type=minecart,tag=aiab.cartinit] run {
+          particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
           data modify entity @s Motion set from storage aiab:data root.Motion
           data modify entity @s Rotation set from storage aiab:data root.Rotation
           tag @s remove aiab.cartinit
