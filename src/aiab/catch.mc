@@ -107,7 +107,6 @@ function catch {
 
     tag @s add aiab.this1
     execute as @a[tag=aiab.this0] if predicate aiab:catch/looking_at_filter run scoreboard players set .temp0 aiab.data 1
-    tag @s remove aiab.this1
 
     execute if score .temp0 aiab.data matches 1 run function aiab:catch/found
   }
