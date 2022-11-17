@@ -23,14 +23,24 @@ function release {
 
       execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
-
-        summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
         particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
+
+        execute (if score .mobbool aiab.data matches 1) {
+          summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
+        } else {
+          summon minecraft:vex ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
+        }
 
       } else execute(as @e[type=minecart,dx=0] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[type=minecart,dx=0] positioned ~0.99 ~0.99 ~0.99) {
         scoreboard players set .success aiab.data 1
         data modify storage aiab:data root set from entity @s
-        execute at @e[type=minecart,dx=0] run summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"], Passengers: [{id: "minecraft:allay", Tags: ["aiab.init"]}]}
+        execute at @e[type=minecart,dx=0] run {
+          execute (if score .mobbool aiab.data matches 1) {
+            summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"],Passengers:[{id:"minecraft:allay",Tags: ["aiab.init"]}]}
+          } else {
+            summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"],Passengers:[{id:"minecraft:vex",Tags: ["aiab.init"]}]}
+          }
+        }
         kill @s
         execute as @e[type=minecart,tag=aiab.cartinit] run {
           data modify entity @s Motion set from storage aiab:data root.Motion
