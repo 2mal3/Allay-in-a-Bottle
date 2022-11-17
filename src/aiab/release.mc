@@ -33,7 +33,8 @@ function release {
 
       } else execute(as @e[type=minecart,dx=0] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[type=minecart,dx=0] positioned ~0.99 ~0.99 ~0.99) {
         scoreboard players set .success aiab.data 1
-        data modify storage aiab:data root set from entity @s
+        data modify storage aiab:data root.Motion set from entity @s Motion
+        data modify storage aiab:data root.Rotation set from entity @s Rotation
         execute at @e[type=minecart,dx=0] run {
           execute (if score .mobbool aiab.data matches 1) {
             summon minecart ~ ~ ~ {Tags: ["aiab.cartinit"],Passengers:[{id:"minecraft:allay",Tags: ["aiab.init"]}]}
