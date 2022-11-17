@@ -6,9 +6,9 @@ function release {
 
   # Set easily accessible flag to identify mob to place. flag 1 = allay, flag 0 = vex
   execute (if data entity @p SelectedItem.tag.aiab.data.DuplicationCooldown) {
-    scoreboard players set .mobbool aiab.data set 1
+    scoreboard players set .mobbool aiab.data 1
   } else {
-    scoreboard players set .mobbool aiab.data set 0
+    scoreboard players set .mobbool aiab.data 0
   }
 
   # Iterative function to find block to place on
