@@ -55,7 +55,7 @@ predicate looking_at_allay {
     "type_specific": {
       "type": "player",
       "looking_at": {
-        "type": "minecraft:allay"
+        "type": "#aiab:catch/aiabmobs"
       }
     }
   }
@@ -153,10 +153,8 @@ function found {
   }
   
   execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
-    say finally storedallay
     item modify entity @p weapon.mainhand aiab:catch/storeallay
   } else {
-    say finallystoredvex
     item modify entity @p weapon.mainhand aiab:catch/storevex
   }
 
