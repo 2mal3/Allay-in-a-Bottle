@@ -153,6 +153,11 @@ function found {
   kill @s
 }
 
+entities aiabmobs {
+  minecraft:vex
+  minecraft:allay
+}
+
 modifier remove_count {
   "function": "minecraft:set_count",
   "count": -1,
