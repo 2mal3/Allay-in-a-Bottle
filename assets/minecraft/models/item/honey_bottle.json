@@ -9,6 +9,12 @@
         "custom_model_data": 3330301
       },
       "model": "aiab:allay_in_a_bottle"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3330302
+      },
+      "model": "aiab:vex_in_a_bottle"
     }
   ]
 }
