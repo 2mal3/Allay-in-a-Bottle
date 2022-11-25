@@ -148,7 +148,7 @@ function found {
       item modify entity @p weapon.mainhand aiab:catch/set
       item modify entity @p weapon.mainhand aiab:catch/storeallay
     } else {
-      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"red","italic":false}'}, CustomModelData: 3330301} 1
+      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"red","italic":false}'}, CustomModelData: 3330302} 1
       item modify entity @p weapon.mainhand aiab:catch/set
       item modify entity @p weapon.mainhand aiab:catch/storevex
     }
