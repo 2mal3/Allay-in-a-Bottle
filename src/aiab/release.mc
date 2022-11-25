@@ -4,7 +4,7 @@ import ../../macros/log.mcm
 function release {
   advancement revoke @s only aiab:release/release
 
-  # Set easily accessible flag to identify mob to place. flag 1 = allay, flag 0 = vex
+  # Set boolean to identify mob to place. allay=1 vex=0
   execute (if data entity @p SelectedItem.tag.aiab.data.DuplicationCooldown) {
     scoreboard players set .mobbool aiab.data 1
   } else {
