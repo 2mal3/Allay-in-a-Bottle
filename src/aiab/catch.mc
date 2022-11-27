@@ -55,7 +55,7 @@ predicate looking_at_allay {
     "type_specific": {
       "type": "player",
       "looking_at": {
-        "type": "#aiab:catch/aiabmobs"
+        "type": "#aiab:catch/mobs"
       }
     }
   }
