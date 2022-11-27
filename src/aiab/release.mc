@@ -92,7 +92,7 @@ advancement release {
           "items": [
             "minecraft:honey_bottle"
           ],
-          "nbt": "{aiab:{aiabmob: 1b}}"
+          "nbt": "{aiab:{mob: 1b}}"
         }
       }
     }
