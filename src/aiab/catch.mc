@@ -158,7 +158,7 @@ function found {
   kill @s
 }
 
-entities aiabmobs {
+entities mobs {
   minecraft:vex
   minecraft:allay
 }
