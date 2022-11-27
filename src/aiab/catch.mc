@@ -55,7 +55,7 @@ predicate looking_at_allay {
     "type_specific": {
       "type": "player",
       "looking_at": {
-        "type": "minecraft:allay"
+        "type": "#aiab:catch/mobs"
       }
     }
   }
@@ -102,12 +102,11 @@ function catch {
 
   # Find the allay the player is looking at
   tag @s add aiab.this0
-  execute as @e[type=minecraft:allay,distance=..5,limit=1,sort=nearest] run {
+  execute as @e[type=#aiab:catch/mobs,distance=..5,limit=1,sort=nearest] run {
     scoreboard players set .temp0 aiab.data 0
 
     tag @s add aiab.this1
     execute as @a[tag=aiab.this0] if predicate aiab:catch/looking_at_filter run scoreboard players set .temp0 aiab.data 1
-    tag @s remove aiab.this1
 
     execute if score .temp0 aiab.data matches 1 run function aiab:catch/found
   }
@@ -142,15 +141,26 @@ function found {
       summon minecraft:item ~ ~ ~ {UUID: [I; 734697936, -905427706, -1108357065, 217367137], Item: {id: "minecraft:glass_bottle", Count: 1b}}
       data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
     }
-
-    item replace entity @s weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
-    item modify entity @s weapon.mainhand aiab:catch/set
   }
-  item modify entity @p weapon.mainhand aiab:catch/store
+  
+  execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
+      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
+      item modify entity @p weapon.mainhand aiab:catch/set
+      item modify entity @p weapon.mainhand aiab:catch/storeallay
+    } else {
+      item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330302} 1
+      item modify entity @p weapon.mainhand aiab:catch/set
+      item modify entity @p weapon.mainhand aiab:catch/storevex
+    }
 
   # Removes the allay
   tp @s ~ -1000 ~
   kill @s
+}
+
+entities mobs {
+  minecraft:vex
+  minecraft:allay
 }
 
 modifier remove_count {
@@ -177,10 +187,10 @@ predicate holding_one_glass_bottle {
 
 modifier set {
   "function": "minecraft:set_nbt",
-  "tag": "{aiab:{allay:1b}}"
+  "tag": "{aiab:{mob:1b}}"
 }
 
-modifier store {
+modifier storeallay {
   "function": "minecraft:copy_nbt",
   "source": "this",
   "ops": [
@@ -207,6 +217,33 @@ modifier store {
     {
       "source": "DuplicationCooldown",
       "target": "aiab.data.DuplicationCooldown",
+      "op": "replace"
+    },
+    {
+      "source": "NoAI",
+      "target": "aiab.data.NoAI",
+      "op": "replace"
+    }
+  ]
+}
+
+modifier storevex {
+  "function": "minecraft:copy_nbt",
+  "source": "this",
+  "ops": [
+    {
+      "source": "Health",
+      "target": "aiab.data.Health",
+      "op": "replace"
+    },
+    {
+      "source": "HandItems",
+      "target": "aiab.data.HandItems",
+      "op": "replace"
+    },
+    {
+      "source": "UUID",
+      "target": "aiab.data.UUID",
       "op": "replace"
     },
     {
