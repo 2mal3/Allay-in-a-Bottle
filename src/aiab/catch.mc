@@ -149,7 +149,7 @@ function found {
     }
   }
   
-  execute (if entity @s[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
+  execute (if entity @s[type=minecraft:allay]) {
       item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
       item modify entity @p weapon.mainhand aiab:catch/set
       item modify entity @p weapon.mainhand aiab:catch/storeallay
