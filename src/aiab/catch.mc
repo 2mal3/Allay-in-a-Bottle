@@ -102,13 +102,19 @@ function catch {
 
   # Find the allay the player is looking at
   tag @s add aiab.this0
-  execute as @e[type=#aiab:catch/mobs,distance=..5,limit=1,sort=nearest] run {
-    scoreboard players set .temp0 aiab.data 0
+  scoreboard players set .temp0 aiab.data 0
+  execute as @e[type=#aiab:catch/mobs,distance=..5,sort=nearest] run {
 
-    tag @s add aiab.this1
-    execute as @a[tag=aiab.this0] if predicate aiab:catch/looking_at_filter run scoreboard players set .temp0 aiab.data 1
+    execute (if score .temp0 aiab.data matches 0) {
+      tag @s add aiab.this1
+      execute (as @a[tag=aiab.this0] if predicate aiab:catch/looking_at_filter) {
+        scoreboard players set .temp0 aiab.data 1
+      } else {
+        tag @s remove aiab.this1
+      }
+      execute if score .temp0 aiab.data matches 1 run function aiab:catch/found
+    }
 
-    execute if score .temp0 aiab.data matches 1 run function aiab:catch/found
   }
   tag @s remove aiab.this0
 }
@@ -143,7 +149,7 @@ function found {
     }
   }
   
-  execute (if entity @e[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
+  execute (if entity @s[type=minecraft:allay,tag=aiab.this1,distance=..5]) {
       item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
       item modify entity @p weapon.mainhand aiab:catch/set
       item modify entity @p weapon.mainhand aiab:catch/storeallay
