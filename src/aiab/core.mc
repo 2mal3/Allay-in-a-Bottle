@@ -16,7 +16,7 @@ function load {
     # Scoreboards
     scoreboard objectives add aiab.data dummy
     scoreboard objectives add aiab.uuid dummy
-    scoreboard objectives add 2mal3.debugMode dummy
+    scoreboard objectives add 2mal3.debug_mode dummy
     # Set the version in format: xx.xx.xx
     scoreboard players set $version aiab.data <%config.version.int%>
     # Set variables
@@ -27,8 +27,8 @@ function load {
     data merge storage aiab:data {root: {}}
 
     # Teams
-    team add aiab.noCollision
-    team modify aiab.noCollision collisionRule never
+    team add aiab.no_collision
+    team modify aiab.no_collision collisionRule never
 
     schedule 4s replace {
       tellraw @a {"text":"Allay in a Bottle <%config.version.str%> by 2mal3 was installed!","color":"green"}
