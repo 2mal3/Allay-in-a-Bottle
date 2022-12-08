@@ -5,10 +5,9 @@ function release {
   advancement revoke @s only aiab:release/release
 
   # Set boolean to identify mob to place. allay=1 vex=0
-  execute (if data entity @p SelectedItem.tag.aiab.data.DuplicationCooldown) {
-    scoreboard players set .mob_bool aiab.data 1
-  } else {
-    scoreboard players set .mob_bool aiab.data 0
+  execute as @p run {
+    execute if data entity @s SelectedItem.tag.aiab.allay run scoreboard players set .mob aiab.data 1
+    execute if data entity @s SelectedItem.tag.aiab.vex run scoreboard players set .mob aiab.data 0
   }
 
   # Iterative function to find block to place on
@@ -23,31 +22,31 @@ function release {
 
       execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
-        particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
 
-        execute (if score .mob_bool aiab.data matches 1) {
-          summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
-        } else {
-          summon minecraft:vex ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
-        }
+        function aiab:release/effects
+
+        execute if score .mob aiab.data matches 1 run summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
+        execute if score .mob aiab.data matches 0 run summon minecraft:vex ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
 
       } else execute (as @e[type=minecraft:minecart,dx=0] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[type=minecraft:minecart,dx=0] positioned ~0.99 ~0.99 ~0.99) {
         scoreboard players set .success aiab.data 1
+
         data modify storage aiab:data root.Motion set from entity @s Motion
         data modify storage aiab:data root.Rotation set from entity @s Rotation
+
         execute at @e[type=minecart,dx=0] run {
-          execute (if score .mob_bool aiab.data matches 1) {
-            summon minecart ~ ~ ~ {Tags: ["aiab.cart_init"],Passengers:[{id:"minecraft:allay",Tags: ["aiab.init"]}]}
-          } else {
-            summon minecart ~ ~ ~ {Tags: ["aiab.cart_init"],Passengers:[{id:"minecraft:vex",Tags: ["aiab.init"]}]}
-          }
+          execute if score .mob aiab.data matches 1 run summon minecraft:minecart ~ ~ ~ {Tags: ["aiab.cart_init"],Passengers:[{id:"minecraft:allay",Tags: ["aiab.init"]}]}
+          execute if score .mob aiab.data matches 0 run summon minecraft:minecart ~ ~ ~ {Tags: ["aiab.cart_init"],Passengers:[{id:"minecraft:vex",Tags: ["aiab.init"]}]}
         }
         kill @s
-        execute as @e[type=minecart,tag=aiab.cart_init,dx=0] run {
-          particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
+
+        execute as @e[type=minecraft:minecart,tag=aiab.cart_init,dx=0] run {
+          tag @s remove aiab.cart_init
+
+          function aiab:release/effects
+
           data modify entity @s Motion set from storage aiab:data root.Motion
           data modify entity @s Rotation set from storage aiab:data root.Rotation
-          tag @s remove aiab.cart_init
         }
 
       } else {
@@ -71,11 +70,15 @@ function release {
       data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
       data modify entity @s Brain set from storage aiab:data root.Brain
     }
-    playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
 
     data remove storage aiab:data root
   }
+}
+
+function effects {
+  particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
+  playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
 }
 
 blocks air {

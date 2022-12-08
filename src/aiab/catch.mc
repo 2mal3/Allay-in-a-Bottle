@@ -76,13 +76,13 @@ function catch {
   log AllayInABottle debug entity <Catched Allay>
 
   # Find the allay the player is looking at
-  tag @s add aiab.this0
+  tag @s add aiab.this_0
   scoreboard players set .temp_0 aiab.data 0
   execute as @e[type=#aiab:catch/mobs,distance=..5,sort=nearest] run {
 
     execute (if score .temp_0 aiab.data matches 0) {
       tag @s add aiab.this1
-      execute (as @a[tag=aiab.this0] if predicate aiab:catch/looking_at_filter) {
+      execute (as @a[tag=aiab.this_0] if predicate aiab:catch/looking_at_filter) {
         scoreboard players set .temp_0 aiab.data 1
       } else {
         tag @s remove aiab.this1
@@ -91,15 +91,12 @@ function catch {
     }
 
   }
-  tag @s remove aiab.this0
+  tag @s remove aiab.this_0
 }
 
 
 # The allay is found
 function found {
-  # Some effects
-  playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
-
   # Gives the player the allay in a bottle
   execute as @p at @s run {
     # Special things if the player is holding more than one bottle
@@ -113,19 +110,29 @@ function found {
   }
 
   execute (if entity @s[type=minecraft:allay]) {
+    function aiab:catch/effects
+
     item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
-    item modify entity @p weapon.mainhand aiab:catch/set
+    item modify entity @p weapon.mainhand aiab:catch/set/set
+    item modify entity @p weapon.mainhand aiab:catch/set/allay
     item modify entity @p weapon.mainhand aiab:catch/store/all
     item modify entity @p weapon.mainhand aiab:catch/store/allay
   } else {
+    function aiab:catch/effects
+
     item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330302} 1
-    item modify entity @p weapon.mainhand aiab:catch/set
+    item modify entity @p weapon.mainhand aiab:catch/set/set
+    item modify entity @p weapon.mainhand aiab:catch/set/vex
     item modify entity @p weapon.mainhand aiab:catch/store/all
   }
 
   # Removes the allay
   tp @s ~ -1000 ~
   kill @s
+}
+
+function effects {
+  playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
 }
 
 predicate looking_at_filter {
@@ -195,9 +202,21 @@ predicate holding_one_glass_bottle {
   }
 }
 
-modifier set {
-  "function": "minecraft:set_nbt",
-  "tag": "{aiab:{mob:1b}}"
+dir set {
+  modifier set {
+    "function": "minecraft:set_nbt",
+    "tag": "{aiab:{mob:1b}}"
+  }
+
+  modifier allay {
+    "function": "minecraft:set_nbt",
+    "tag": "{aiab:{allay:1b}}"
+  }
+
+  modifier vex {
+    "function": "minecraft:set_nbt",
+    "tag": "{aiab:{vex:1b}}"
+  }
 }
 
 dir store {
