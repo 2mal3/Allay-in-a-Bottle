@@ -23,7 +23,7 @@ function release {
       execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
 
-        execute positioned ^ ^ ^0.1 if block ~ ~ ~ minecraft:note_block run summon minecraft:marker ~ ~ ~ {Tags: ["aiab.noteblock_marker"]}
+        execute if score .mob aiab.data matches 1 positioned ^ ^ ^0.1 if block ~ ~ ~ minecraft:note_block run summon minecraft:marker ~ ~ ~ {Tags: ["aiab.noteblock_marker"]}
 
         function aiab:release/effects
 
