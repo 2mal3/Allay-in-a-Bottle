@@ -83,7 +83,9 @@ function release {
 
 function effects {
   particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
-  playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
+
+  execute if score .mob aiab.data matches 1 run playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
+  execute if score .mob aiab.data matches 0 run playsound minecraft:entity.vex.charge player @a ~ ~ ~
 }
 
 function pair_noteblock {

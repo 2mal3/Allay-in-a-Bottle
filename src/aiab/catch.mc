@@ -110,7 +110,7 @@ function found {
   }
 
   execute (if entity @s[type=minecraft:allay]) {
-    function aiab:catch/effects
+    playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
 
     item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
     item modify entity @p weapon.mainhand aiab:catch/set/set
@@ -118,7 +118,7 @@ function found {
     item modify entity @p weapon.mainhand aiab:catch/store/all
     item modify entity @p weapon.mainhand aiab:catch/store/allay
   } else {
-    function aiab:catch/effects
+    playsound minecraft:entity.vex.ambient player @a ~ ~ ~
 
     item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330302} 1
     item modify entity @p weapon.mainhand aiab:catch/set/set
@@ -131,9 +131,6 @@ function found {
   kill @s
 }
 
-function effects {
-  playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
-}
 
 predicate looking_at_filter {
   "condition": "minecraft:entity_properties",
