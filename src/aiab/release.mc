@@ -23,7 +23,8 @@ function release {
       execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
 
-        execute if score .mob aiab.data matches 1 positioned ^ ^ ^0.1 if block ~ ~ ~ minecraft:note_block run summon minecraft:marker ~ ~ ~ {Tags: ["aiab.noteblock_marker"]}
+        # "91ec111c-dfb1-4d25-9181-46c732b790ca"
+        execute if score .mob aiab.data matches 1 positioned ^ ^ ^0.1 if block ~ ~ ~ minecraft:note_block run summon minecraft:marker ~ ~ ~ {UUID: [I;-1846800100,-542028507,-1853798713,850890954]}
 
         function aiab:release/effects
 
@@ -72,7 +73,7 @@ function release {
       data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
       data modify entity @s Brain set from storage aiab:data root.Brain
 
-      execute at @s if entity @e[type=minecraft:marker,tag=aiab.noteblock_marker,distance=..0.4] run function aiab:release/pair_noteblock
+      execute at @s if entity 91ec111c-dfb1-4d25-9181-46c732b790ca run function aiab:release/pair_noteblock
     }
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
 
@@ -90,10 +91,10 @@ function pair_noteblock {
   execute if predicate aiab:release/in_the_nether run data modify entity @s Brain.memories."minecraft:liked_noteblock".value.dimension set value "minecraft:the_nether"
   execute if predicate aiab:release/in_the_end run data modify entity @s Brain.memories."minecraft:liked_noteblock".value.dimension set value "minecraft:the_end"
 
-  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[0] set from entity @e[type=minecraft:marker,tag=aiab.noteblock_marker,distance=..0.4,limit=1] Pos[0]
-  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[1] set from entity @e[type=minecraft:marker,tag=aiab.noteblock_marker,distance=..0.4,limit=1] Pos[1]
-  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[2] set from entity @e[type=minecraft:marker,tag=aiab.noteblock_marker,distance=..0.4,limit=1] Pos[2]
-  kill @e[type=minecraft:marker,tag=aiab.noteblock_marker,distance=..0.4]
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[0] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[0]
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[1] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[1]
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[2] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[2]
+  kill 91ec111c-dfb1-4d25-9181-46c732b790ca
 }
 
 blocks air {
