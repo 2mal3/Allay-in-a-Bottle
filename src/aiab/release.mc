@@ -23,6 +23,9 @@ function release {
       execute(unless block ^ ^ ^0.1 #aiab:release/air) {
         scoreboard players set .success aiab.data 1
 
+        # "91ec111c-dfb1-4d25-9181-46c732b790ca"
+        execute if score .mob aiab.data matches 1 positioned ^ ^ ^0.1 if block ~ ~ ~ minecraft:note_block run summon minecraft:marker ~ ~ ~ {UUID: [I;-1846800100,-542028507,-1853798713,850890954]}
+
         function aiab:release/effects
 
         execute if score .mob aiab.data matches 1 run summon minecraft:allay ^ ^-0.2 ^-0.2 {Tags: ["aiab.init"]}
@@ -69,6 +72,8 @@ function release {
       data modify entity @s UUID set from storage aiab:data root.UUID
       data modify entity @s DuplicationCooldown set from storage aiab:data root.DuplicationCooldown
       data modify entity @s Brain set from storage aiab:data root.Brain
+
+      execute at @s if entity 91ec111c-dfb1-4d25-9181-46c732b790ca run function aiab:release/pair_noteblock
     }
     item replace entity @s weapon.mainhand with minecraft:glass_bottle
 
@@ -79,6 +84,17 @@ function release {
 function effects {
   particle minecraft:end_rod ~ ~0.2 ~ 0.2 0.4 0.2 0 4
   playsound minecraft:entity.allay.ambient_without_item player @a ~ ~ ~
+}
+
+function pair_noteblock {
+  data merge entity @s {Brain:{memories:{"minecraft:liked_noteblock_cooldown_ticks":{value:600},"minecraft:liked_noteblock":{value:{pos:[I;0,0,0],dimension:"minecraft:overworld"}}}}}
+  execute if predicate aiab:release/in_the_nether run data modify entity @s Brain.memories."minecraft:liked_noteblock".value.dimension set value "minecraft:the_nether"
+  execute if predicate aiab:release/in_the_end run data modify entity @s Brain.memories."minecraft:liked_noteblock".value.dimension set value "minecraft:the_end"
+
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[0] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[0]
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[1] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[1]
+  data modify entity @s Brain.memories."minecraft:liked_noteblock".value.pos[2] set from entity 91ec111c-dfb1-4d25-9181-46c732b790ca Pos[2]
+  kill 91ec111c-dfb1-4d25-9181-46c732b790ca
 }
 
 blocks air {
@@ -103,5 +119,19 @@ advancement release {
   },
   "rewards": {
     "function": "aiab:release/release"
+  }
+}
+
+predicate in_the_end {
+  "condition": "minecraft:location_check",
+  "predicate": {
+    "dimension": "minecraft:the_end"
+  }
+}
+
+predicate in_the_nether {
+  "condition": "minecraft:location_check",
+  "predicate": {
+    "dimension": "minecraft:the_nether"
   }
 }
