@@ -35,38 +35,8 @@ function load {
     }
   }
   execute if score %installed aiab.data matches 1 unless score $version aiab.data matches <%config.version.int%> run {
-    execute if score $version aiab.data matches 010000 run {
-      log AllayInABottle info server <Updated datapack from v1.0.0 to v1.0.1>
-      scoreboard players set $version aiab.data 010001
-    }
-
-    # v1.0.2
-    execute if score $version aiab.data matches 010001 run {
-      log AllayInABottle info server <Updated datapack from v1.0.1 to v1.0.2>
-      scoreboard players set $version aiab.data 010002
-    }
-
-    # v1.0.3
-    execute if score $version aiab.data matches 010002 run {
-      log AllayInABottle info server <Updated datapack from v1.0.2 to v1.0.3>
-      scoreboard players set $version aiab.data 010003
-
-      # Update storage root name
-      data remove storage aiab:data data
-      data merge storage aiab:data {root: {}}
-    }
-
-    # v1.1.0
-    execute if score $version aiab.data matches 010003 run {
-      log AllayInABottle info server <Updated datapack from v1.0.3 to v1.1.0>
-      scoreboard players set $version aiab.data 10100
-    }
-
-    # v1.1.1
-    execute if score $version aiab.data matches 10100 run {
-      log AllayInABottle info server <Updated datapack from v1.1.0 to v1.1.1>
-      scoreboard players set $version aiab.data 10101
-    }
+    log AllayInABottle info server <Updated datapack to v2.0.0>
+    function aiab:core/install
   }
 }
 
