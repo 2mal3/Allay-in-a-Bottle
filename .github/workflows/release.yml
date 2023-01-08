@@ -23,18 +23,16 @@ jobs:
         run: mcb -build
 
       - name: Zip datapack files
-        uses: TheDoctor0/zip-release@0.6.2
-        with:
-          filename: "Allay-in-a-Bottle.zip"
-          type: "zip"
-          path: "datapack/data datapack/pack.mcmeta datapack/pack.png LICENSE.txt README.md CHANGELOG.md"
+        run: >
+          zip Allay-in-a-Bottle.zip LICENSE.txt README.md CHANGELOG.md &&
+          (cd datapack/ &&
+          zip -ur ../Allay-in-a-Bottle.zip data/ pack.mcmeta icon.png)
 
       - name: Zip resourcepack files
-        uses: TheDoctor0/zip-release@0.6.2
-        with:
-          filename: "Allay-in-a-Bottle-Resourcepack.zip"
-          type: "zip"
-          path: "resourcepack/assets resourcepack/pack.mcmeta resourcepack/pack.png LICENSE.txt README.md CHANGELOG.md"
+        run: >
+          zip Allay-in-a-Bottle-Resourcepack.zip LICENSE.txt README.md CHANGELOG.md &&
+          (cd datapack/ &&
+          zip -ur ../Allay-in-a-Bottle-Resourcepack.zip assets/ pack.mcmeta pack.png)
 
       - name: Create release
         uses: softprops/action-gh-release@v1
