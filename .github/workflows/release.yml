@@ -31,7 +31,7 @@ jobs:
       - name: Zip resourcepack files
         run: >
           zip Allay-in-a-Bottle-Resourcepack.zip LICENSE.txt README.md CHANGELOG.md &&
-          (cd datapack/ &&
+          (cd resourcepack/ &&
           zip -ur ../Allay-in-a-Bottle-Resourcepack.zip assets/ pack.mcmeta pack.png)
 
       - name: Create release
