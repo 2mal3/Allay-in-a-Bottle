@@ -35,8 +35,14 @@ function load {
     }
   }
   execute if score %installed aiab.data matches 1 unless score $version aiab.data matches <%config.version.int%> run {
-    log AllayInABottle info server <Updated datapack to v2.0.0>
-    function aiab:core/install
+    execute if score $version aiab.data matches ..10101 run {
+      log AllayInABottle info server <Updated datapack to v2.0.0>
+      function aiab:core/install
+    }
+    execute if score $version aiab.data matches 20000 run {
+      log AllayInABottle info server <Updated datapack to v2.0.1>
+      scoreboard players set $version aiab.data 20001
+    }
   }
 }
 

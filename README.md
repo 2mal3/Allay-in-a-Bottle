@@ -2,8 +2,6 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/2mal3/Allay-in-a-Bottle?style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/2mal3/Allay-in-a-Bottle/total?style=flat-square) ![Minecraft](https://img.shields.io/badge/Minecraft-1.19-orange?style=flat-square)
 
-> The resourcepack needed for the datapack is the same file as the datapack. You have to move the downloaded file into the Datapack **and** into the Resourcepack folder.
-
 ### 📖 Features
 
 - hilarious idea
