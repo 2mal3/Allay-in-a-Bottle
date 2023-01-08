@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
   build-and-release:
@@ -18,18 +19,28 @@ jobs:
       - name: Install mc-build
         run: npm i -g mc-build
       - name: Run mc-build
+        working-directory: ./datapack
         run: mcb -build
 
-      - name: Zip files
+      - name: Zip datapack files
         uses: TheDoctor0/zip-release@0.6.2
         with:
           filename: "Allay-in-a-Bottle.zip"
           type: "zip"
-          path: "data assets pack.mcmeta icon.png pack.png LICENSE.txt README.md CHANGELOG.md"
+          path: "datapack/data datapack/pack.mcmeta datapack/pack.png LICENSE.txt README.md CHANGELOG.md"
+
+      - name: Zip resourcepack files
+        uses: TheDoctor0/zip-release@0.6.2
+        with:
+          filename: "Allay-in-a-Bottle-Resourcepack.zip"
+          type: "zip"
+          path: "resourcepack/assets resourcepack/pack.mcmeta resourcepack/pack.png LICENSE.txt README.md CHANGELOG.md"
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           name: Allay in a Bottle ${{github.ref_name}}
           body_path: CHANGELOG.md
-          files: Allay-in-a-Bottle.zip
+          files: |
+            Allay-in-a-Bottle.zip
+            Allay-in-a-Bottle-Resourcepack.zip
