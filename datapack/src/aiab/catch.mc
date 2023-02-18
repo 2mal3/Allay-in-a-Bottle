@@ -235,6 +235,11 @@ dir store {
         "source": "NoAI",
         "target": "aiab.data.NoAI",
         "op": "replace"
+      },
+      {
+        "source": "CustomName",
+        "target": "aiab.data.CustomName",
+        "op": "replace"
       }
     ]
   }

@@ -67,6 +67,7 @@ function release {
       tag @s remove aiab.init
 
       data modify entity @s NoAI set from storage aiab:data root.NoAI
+      data modify entity @s CustomName set from storage aiab:data root.CustomName
       data modify entity @s Health set from storage aiab:data root.Health
       data modify entity @s HandItems set from storage aiab:data root.HandItems
       data modify entity @s UUID set from storage aiab:data root.UUID
