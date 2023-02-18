@@ -22,3 +22,5 @@ To catch or release, simply right-click with a bottle (doesn't always work first
 - special thanks to @giggity404 for ideas and code
 - for compatibility with the [Bottle o Light Datapack](https://www.planetminecraft.com/data-pack/bottle-o-light/), download the appropriate version [here](https://github.com/2mal3/Allay-in-a-Bottle/releases/download/v1.0.3/Allay-in-a-Amethyst-Bottle.zip)
 - the datapack was created with [mc-build](https://github.com/mc-build/mc-build)
+
+_v3.0.2_
