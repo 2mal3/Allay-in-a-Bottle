@@ -38,15 +38,23 @@ function install {
 }
 
 function update {
+  # v2.0.0
   execute if score $version aiab.data matches ..10101 run {
     log AllayInABottle info server <Updated datapack to v2.0.0>
     function aiab:core/install
   }
+
+  # v2.0.1
   execute if score $version aiab.data matches 20000 run {
     log AllayInABottle info server <Updated datapack to v2.0.1>
     scoreboard players set $version aiab.data 20001
   }
 
+  # v2.1.0
+  execute if score $version aiab.data matches 20001 run {
+    log AllayInABottle info server <Updated datapack to v2.1.0>
+    scoreboard players set $version aiab.data 20100
+  }
 }
 
 
