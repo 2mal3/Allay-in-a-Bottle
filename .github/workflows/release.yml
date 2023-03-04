@@ -56,7 +56,7 @@ jobs:
           name: resourcepack-raw
       - name: Finish resourcepack
         run: |
-          mv pack.zip ${{ env.NAME }}.zip
+          mv pack.zip ${{ env.NAME }}-Resourcepack.zip
           zip -u ${{ env.NAME }}-Resourcepack.zip LICENSE.txt README.md CHANGELOG.md
 
       - name: Upload artifact
