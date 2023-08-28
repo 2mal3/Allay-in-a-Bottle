@@ -65,7 +65,7 @@ function first_join {
 
   # Warns the player if he uses a not supported server software or minecraft version
   execute store result score .temp_0 aiab.data run data get entity @s DataVersion
-  execute unless score .temp_0 aiab.data matches 3105.. run tellraw @s [{"text":"[","color":"gray"},{"text":"AllayInABottle","color":"gold"},{"text":"/","color":"gray"},{"text":"WARN","color":"gold"},{"text": "/","color": "gray"},{"text": "Server","color": "gold"},{"text":"]: ","color":"gray"},{"text":"This Minecraft version is not supported by the datapack. Please use the 1.19.x to prevent errors.","color":"gold"}]
+  execute unless score .temp_0 ___.data matches 3465.. run tellraw @s [{"text": "[", "color": "gray"},{"text": "AllayInABottle", "color": "red", "bold": true},{"text": "]: ", "color": "gray"},{"text": "You are using the incorrect Minecraft version. Please check the website.","color": "red","bold": true}]
 }
 
 advancement first_join {
