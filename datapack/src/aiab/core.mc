@@ -105,6 +105,9 @@ function uninstall {
   scoreboard objectives remove aiab.data
   scoreboard objectives remove aiab.uuid
 
+  # Delete teams
+  team remove aiab.no_collision
+
   # Sends an uninstallation message to all players
   tellraw @a {"text":"Allay in a Bottle <%config.version.str%> by 2mal3 was successfully uninstalled.","color": "green"}
 
