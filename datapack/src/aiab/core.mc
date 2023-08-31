@@ -59,10 +59,6 @@ function update {
 
 
 function first_join {
-  # Gives each player a unique id
-  scoreboard players operation @s aiab.uuid = %id aiab.uuid
-  scoreboard players add %id aiab.uuid 1
-
   # Warns the player if he uses a not supported server software or minecraft version
   execute store result score .temp_0 aiab.data run data get entity @s DataVersion
   execute unless score .temp_0 ___.data matches 3465.. run tellraw @s [{"text": "[", "color": "gray"},{"text": "AllayInABottle", "color": "red", "bold": true},{"text": "]: ", "color": "gray"},{"text": "You are using the incorrect Minecraft version. Please check the website.","color": "red","bold": true}]

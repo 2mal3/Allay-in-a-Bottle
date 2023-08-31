@@ -1,161 +1,95 @@
 import ../../macros/log.mcm
 
 
-# Make sure that each player that can catch an allay is linked to a villager
-clock 1t {
-  name loop
-
-  execute as @a at @s run {
-    # Ensures that there is always a villager in the near of players that can catch an allay
-    execute if entity @s[gamemode=!spectator,gamemode=!adventure,predicate=aiab:catch/holding_glass_bottle] if predicate aiab:catch/looking_at_allay at @s run {
-      # Summons a click detection villager if the player first can catch a allay
-      execute unless entity @s[tag=aiab.can_catch_allay] run {
-        tag @s add aiab.can_catch_allay
-
-        summon minecraft:villager ~ 1000 ~ {NoGravity: 1b, Silent: 1b, Team: "aiab.no_collision", Invulnerable: 1b, NoAI: 1b, Tags: ["aiab.villager", "aiab.init"], ActiveEffects: [{Id: 14b, Amplifier: 1b, Duration: 99999, ShowParticles: 0b}]}
-        # Gives the villager the same uuid as the player
-        scoreboard players operation .temp_0 aiab.data = @s aiab.uuid
-        execute as @e[type=minecraft:villager,sort=nearest,tag=aiab.init] run {
-          tag @s remove aiab.init
-
-          tp @s ~ ~ ~
-          scoreboard players operation @s aiab.uuid = .temp_0 aiab.data
-        }
-      }
-
-      # Tp the summoned villager to the player as long as he can catch the ally
-      scoreboard players operation .temp_0 aiab.data = @s aiab.uuid
-      execute as @e[type=minecraft:villager,sort=nearest,tag=aiab.villager] if score @s aiab.uuid = .temp_0 aiab.data run tp @s ~ ~ ~
-    }
-
-    # Removes the summoned villager if the player can no longer catch the allay
-    execute if entity @s[tag=aiab.can_catch_allay] run {
-      scoreboard players set .temp_0 aiab.data 0
-
-      execute unless predicate aiab:catch/holding_glass_bottle run scoreboard players set .temp_0 aiab.data 1
-      execute unless predicate aiab:catch/looking_at_allay run scoreboard players set .temp_0 aiab.data 1
-
-      execute if score .temp_0 aiab.data matches 1 run {
-        tag @s remove aiab.can_catch_allay
-
-        scoreboard players operation .temp_0 aiab.data = @s aiab.uuid
-        execute as @e[type=minecraft:villager,sort=nearest,tag=aiab.villager] if score @s aiab.uuid = .temp_0 aiab.data run {
-          tp @s ~ -1000 ~
-          kill @s
-        }
-      }
-    }
-  }
-}
-
-
-
-# Catches the allay in a bottle if the player interacts with the summoned villager
-advancement catch {
+## Logic for handling the capturing when interacting with the allay
+advancement interact {
   "criteria": {
     "requirement": {
       "trigger": "minecraft:player_interacted_with_entity",
       "conditions": {
-        "player": {
-          "nbt": "{Tags:[\"aiab.can_catch_allay\"]}"
+        "item": {
+          "items": [
+            "minecraft:glass_bottle"
+          ]
         },
         "entity": {
-          "type": "minecraft:villager",
-          "nbt": "{Tags:[\"aiab.villager\"]}"
+          "type": "minecraft:interaction"
         }
       }
     }
   },
   "rewards": {
-    "function": "aiab:catch/catch"
+    "function": "aiab:catch/interact"
   }
 }
 
-function catch {
-  advancement revoke @s only aiab:catch/catch
-  log AllayInABottle debug entity <Catched Allay>
+function interact {
+  log AllayInABottle debug entity Catch
+  advancement revoke @s only aiab:catch/interact
 
-  # Find the allay the player is looking at
-  tag @s add aiab.this_0
-  scoreboard players set .temp_0 aiab.data 0
-  execute as @e[type=#aiab:catch/mobs,distance=..5,sort=nearest] run {
-
-    execute (if score .temp_0 aiab.data matches 0) {
-      tag @s add aiab.this1
-      execute (as @a[tag=aiab.this_0] if predicate aiab:catch/looking_at_filter) {
-        scoreboard players set .temp_0 aiab.data 1
-      } else {
-        tag @s remove aiab.this1
-      }
-      execute if score .temp_0 aiab.data matches 1 run function aiab:catch/found
-    }
-
-  }
-  tag @s remove aiab.this_0
-}
-
-
-# The allay is found
-function found {
-  # Gives the player the allay in a bottle
-  execute as @p at @s run {
-    # Special things if the player is holding more than one bottle
-    execute unless predicate aiab:catch/holding_one_glass_bottle run {
-      log AllayInABottle debug entity <Holding more than one bottle>
-      item modify entity @s weapon.mainhand aiab:catch/remove_count
-      # 2bca99d0-ca08-4506-bdef-d0370cf4c261
-      summon minecraft:item ~ ~ ~ {UUID: [I; 734697936, -905427706, -1108357065, 217367137], Item: {id: "minecraft:glass_bottle", Count: 1b}}
-      data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
-    }
+  # Special things if the player is holding more than one bottle
+  execute unless predicate aiab:catch/holding_one_glass_bottle run {
+    log AllayInABottle debug entity <Holding more than one bottle>
+    item modify entity @s weapon.mainhand aiab:catch/remove_count
+    # 2bca99d0-ca08-4506-bdef-d0370cf4c261
+    summon minecraft:item ~ ~ ~ {UUID: [I; 734697936, -905427706, -1108357065, 217367137], Item: {id: "minecraft:glass_bottle", Count: 1b}}
+    data modify entity 2bca99d0-ca08-4506-bdef-d0370cf4c261 Item.Count set from entity @s SelectedItem.Count
   }
 
-  execute (if entity @s[type=minecraft:allay]) {
-    playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
+  # Find the allay the player right clicked, store its data and remove it
+  tag @s add aiab.this
+  execute as @e[type=minecraft:interaction,distance=..6] at @s run {
+    scoreboard players set .temp_0 aiab.data 0
+    execute on target if entity @s[tag=aiab.this] run scoreboard players set .temp_0 aiab.data 1
+    # execute on target if entity @s[tag=aiab.this] run say hi
+    execute if score .temp_0 aiab.data matches 1 run {
+      execute as @e[type=#aiab:catch/mobs,distance=..1,sort=nearest,limit=1] run {
+        log AllayInABottle debug entity Found
 
-    item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
-    item modify entity @p weapon.mainhand aiab:catch/set/set
-    item modify entity @p weapon.mainhand aiab:catch/set/allay
-    item modify entity @p weapon.mainhand aiab:catch/store/all
-    item modify entity @p weapon.mainhand aiab:catch/store/allay
-  } else {
-    playsound minecraft:entity.vex.ambient player @a ~ ~ ~
+        function aiab:catch/remove_interaction
 
-    item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330302} 1
-    item modify entity @p weapon.mainhand aiab:catch/set/set
-    item modify entity @p weapon.mainhand aiab:catch/set/vex
-    item modify entity @p weapon.mainhand aiab:catch/store/all
-  }
+        data modify storage aiab:data root.data set from entity @s
+        data modify storage aiab:data root.mob set value 1b
+        execute (if entity @s[type=minecraft:allay]) {
+          playsound minecraft:entity.allay.item_taken player @a ~ ~ ~
+          data modify storage aiab:data root.allay set value 1b
+        } else {
+          playsound minecraft:entity.vex.ambient player @a ~ ~ ~
+          data modify storage aiab:data root.vex set value 1b
+        }
+        tp @s ~ -1000 ~
 
-  # Removes the allay
-  tp @s ~ -1000 ~
-  kill @s
-}
-
-
-predicate looking_at_filter {
-  "condition": "minecraft:entity_properties",
-  "entity": "this",
-  "predicate": {
-    "type_specific": {
-      "type": "player",
-      "looking_at": {
-        "nbt": "{Tags: [\"aiab.this1\"]}"
       }
     }
   }
+  tag @s remove aiab.this
+
+  # Give the player the new bottle with the allay data
+  execute if data storage aiab:data root.allay run item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Allay in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330301} 1
+  execute if data storage aiab:data root.vex run item replace entity @p weapon.mainhand with minecraft:honey_bottle{display: {Name: '{"text":"Vex in a Bottle","color":"yellow","italic":false}'}, CustomModelData: 3330302} 1
+  item modify entity @s weapon.mainhand aiab:catch/store
 }
 
-predicate looking_at_allay {
-  "condition": "minecraft:entity_properties",
-  "entity": "this",
-  "predicate": {
-    "type_specific": {
-      "type": "player",
-      "looking_at": {
-        "type": "#aiab:catch/mobs"
-      }
+modifier store {
+  "function": "minecraft:copy_nbt",
+  "source": {
+    "type": "minecraft:storage",
+    "source": "aiab:data"
+  },
+  "ops": [
+    {
+      "source": "root",
+      "target": "aiab",
+      "op": "merge"
     }
-  }
+  ]
+}
+
+
+modifier remove_count {
+  "function": "minecraft:set_count",
+  "count": -1,
+  "add": true
 }
 
 predicate holding_glass_bottle {
@@ -172,18 +106,6 @@ predicate holding_glass_bottle {
   }
 }
 
-entities mobs {
-  minecraft:vex
-  minecraft:allay
-}
-
-modifier remove_count {
-  "function": "minecraft:set_count",
-  "count": -1,
-  "add": true
-}
-
-
 predicate holding_one_glass_bottle {
   "condition": "minecraft:entity_properties",
   "entity": "this",
@@ -199,70 +121,63 @@ predicate holding_one_glass_bottle {
   }
 }
 
-dir set {
-  modifier set {
-    "function": "minecraft:set_nbt",
-    "tag": "{aiab:{mob:1b}}"
+entities mobs {
+  minecraft:vex
+  minecraft:allay
+}
+
+
+## Logic to link interaction entities to the allays to enable right click detection
+clock 1t {
+  execute as @e[type=minecraft:allay, tag=!global.ignore, tag=!smithed.entity] at @s run function aiab:catch/clock
+  execute as @e[type=minecraft:vex, tag=!global.ignore, tag=!smithed.entity] at @s run function aiab:catch/clock
+}
+
+function clock {
+  # Create interaction as soon as a valid player is in reach
+  execute if entity @s[tag=!aiab.has_interaction] if entity @p[predicate=aiab:catch/holding_glass_bottle,distance=..6] run {
+    tag @s add aiab.has_interaction
+
+    execute unless score @s aiab.uuid matches 0.. run {
+      scoreboard players add %id aiab.uuid 1
+      scoreboard players operation @s aiab.uuid = %id aiab.uuid
+    }
+    scoreboard players operation .temp_0 aiab.data = @s aiab.uuid
+
+    execute summon minecraft:interaction run {
+      scoreboard players operation @s aiab.uuid = .temp_0 aiab.data
+      data merge entity @s {response:1b,Tags:["aiab.interaction"]}
+    }
   }
 
-  modifier allay {
-    "function": "minecraft:set_nbt",
-    "tag": "{aiab:{allay:1b}}"
-  }
+  execute if entity @s[tag=aiab.has_interaction] run {
+    # Link the interaction to the allay
+    scoreboard players operation .search aiab.data = @s aiab.uuid
+    execute as @e[type=minecraft:interaction,distance=..2,tag=aiab.interaction] if score @s aiab.uuid = .search aiab.data run tp @s ~ ~-0.2 ~
 
-  modifier vex {
-    "function": "minecraft:set_nbt",
-    "tag": "{aiab:{vex:1b}}"
+    # Remove interaction entity when no player is there
+    execute unless entity @p[predicate=aiab:catch/holding_glass_bottle,distance=..6] run {
+      name remove_interaction
+
+      tag @s remove aiab.has_interaction
+
+      scoreboard players operation .search aiab.data = @s aiab.uuid
+      execute as @e[type=minecraft:interaction,distance=..2,tag=aiab.interaction] if score @s aiab.uuid = .search aiab.data run kill @s
+    }
   }
 }
 
-dir store {
-  modifier all {
-    "function": "minecraft:copy_nbt",
-    "source": "this",
-    "ops": [
-      {
-        "source": "Health",
-        "target": "aiab.data.Health",
-        "op": "replace"
-      },
-      {
-        "source": "UUID",
-        "target": "aiab.data.UUID",
-        "op": "replace"
-      },
-      {
-        "source": "NoAI",
-        "target": "aiab.data.NoAI",
-        "op": "replace"
-      },
-      {
-        "source": "CustomName",
-        "target": "aiab.data.CustomName",
-        "op": "replace"
-      }
-    ]
-  }
 
-  modifier allay {
-    "function": "minecraft:copy_nbt",
-    "source": "this",
-    "ops": [
-      {
-        "source": "HandItems",
-        "target": "aiab.data.HandItems",
-        "op": "replace"
-      },
-      {
-        "source": "Brain",
-        "target": "aiab.data.Brain",
-        "op": "replace"
-      },
-      {
-        "source": "DuplicationCooldown",
-        "target": "aiab.data.DuplicationCooldown",
-        "op": "replace"
+predicate holding_glass_bottle {
+  "condition": "minecraft:entity_properties",
+  "entity": "this",
+  "predicate": {
+    "equipment": {
+      "mainhand": {
+        "items": [
+          "minecraft:glass_bottle"
+        ]
       }
-    ]
+    }
   }
 }
