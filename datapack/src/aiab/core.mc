@@ -55,6 +55,12 @@ function update {
     log AllayInABottle info server <Updated datapack to v2.1.0>
     scoreboard players set $version aiab.data 20100
   }
+
+  # v2.1.0
+  execute if score $version aiab.data matches 20100 run {
+    log AllayInABottle info server <Updated datapack to v2.1.1>
+    scoreboard players set $version aiab.data 20101
+  }
 }
 
 

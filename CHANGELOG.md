@@ -1,9 +1,10 @@
 
-### Added
+### Changed
 
-- Allays and Vexes keep their names when captured
+- Allays are easier to catch
+- improved release logic
 
 ### Fixed
 
-- files were not compressed properly
-- broken datapack and resourcepack icons
+- wrong pack version
+- some parts of the datapack were not removed when uninstalling
